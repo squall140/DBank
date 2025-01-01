@@ -9,7 +9,42 @@ function App() {
   const [web3, setWeb3] = useState(null);
   const [address, setAddress] = useState(null);
   const [bankContract, setBankContract] = useState(0);
-  
+  const [myDeposit, setMyDeposit] = useState(0);
+  const [number, setNumber] = useState(0);
+  const [to, setTo] = useState(0);
+
+  const newNumber = (e) => {
+    setNumber(e.target.value);
+  }
+
+  const newAddress = (e) => {
+    setTo(e.target.value);
+  }
+
+  const getMyDeposit = async () => {
+    const myDeposit = await bankContract.methods.getMyDeposit().call({
+      from: address
+    });
+    setMyDeposit(myDeposit);
+  }
+
+  const deposit = async () => {
+    await bankContract.methods.deposit(number).send({
+      from: address
+    });
+  }
+
+  const withdraw = async () => {
+    await bankContract.methods.withdraw(number).send({
+      from: address
+    });
+  }
+
+  const transfer = async () => { 
+    await bankContract.methods.transfer(to, number).send({
+      from: address
+    });
+  }
 
   const connectWallet = async () => {
     
